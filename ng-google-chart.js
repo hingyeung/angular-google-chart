@@ -81,7 +81,8 @@
                 scope: {
                     chart: '=chart',
                     onReady: '&',
-                    select: '&'
+                    select: '&',
+                    redrawOn: '=redrawOn'
                 },
                 link: function ($scope, $elm, $attr) {
                     // Watches, to refresh the chart when its data, title or dimensions change
@@ -140,6 +141,12 @@
                                 $scope.chart.options.allowHtml = true;
                         }
                     }
+
+                    // Redraw the chart if the "redrawOn" is true
+                    $scope.$watch('redrawOn', function () {
+                        if ($scope.redrawOn) return;
+                        draw();
+                    });
 
                     function draw() {
                         if (!draw.triggered && ($scope.chart != undefined)) {
